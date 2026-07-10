@@ -1,0 +1,11 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">PartVance mark</title>
+  <desc id="desc">A hexagonal spare-part symbol with a rising intelligence signal for forecasting, risk, and suppliers.</desc>
+  <rect width="128" height="128" rx="28" fill="#F0FAF4"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M64 14L106.435 38.5V87.5L64 112L21.5651 87.5V38.5L64 14ZM64 40C50.7452 40 40 50.7452 40 64C40 77.2548 50.7452 88 64 88C77.2548 88 88 77.2548 88 64C88 50.7452 77.2548 40 64 40Z" fill="#006351"/>
+  <path d="M37 78C46.2 75.2 50.2 64.5 59.2 64.5C68.5 64.5 70 51.5 82.8 48" stroke="#6FDF54" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="37" cy="78" r="6.5" fill="#4D65FF" stroke="#F0FAF4" stroke-width="4"/>
+  <circle cx="59" cy="64.5" r="6.5" fill="#F5A524" stroke="#F0FAF4" stroke-width="4"/>
+  <circle cx="83" cy="48" r="6.5" fill="#6FDF54" stroke="#F0FAF4" stroke-width="4"/>
+  <path d="M84 35L98 45.5L83.5 56" stroke="#006351" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
