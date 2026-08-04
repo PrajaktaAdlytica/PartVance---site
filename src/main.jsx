@@ -9,6 +9,7 @@ import {
   BarChart3,
   Boxes,
   Building2,
+  CalendarDays,
   CheckCircle2,
   ChevronDown,
   CircleDollarSign,
@@ -91,6 +92,36 @@ const useCases = [
 const systems = ["SAP", "Microsoft Dynamics", "Oracle", "Infor", "IBM Maximo", "Fiix", "MaintainX", "CSV/API"];
 
 const ease = [0.16, 1, 0.3, 1];
+
+const companyLinks = {
+  dlabs: "https://d-labs-site.vercel.app/companies",
+  linkedin: "https://www.linkedin.com/company/partvance/",
+  crunchbase: "https://www.crunchbase.com/organization/partvance",
+};
+
+const pageMeta = {
+  "/": ["PartVance | AI spare parts intelligence", "PartVance is an AI spare parts intelligence platform for forecasting, risk scoring, and supplier intelligence."],
+  "/news/funding-announcement": ["PartVance secures $580K in funding from Dlabs", "PartVance has secured $580K in funding from Dlabs. Announcement dated Jun 30, 2026."],
+};
+
+function PageMetadata() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const [title, description] = pageMeta[pathname] || ["PartVance | AI spare parts intelligence", "Industrial supply-chain intelligence for spare parts forecasting, risk, and suppliers."];
+    document.title = title;
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", description);
+  }, [pathname]);
+  return null;
+}
+
+function ExternalLink({ href, children, className = "", ...props }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer noopener" className={className} {...props}>
+      {children}
+    </a>
+  );
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -203,6 +234,7 @@ function Header() {
             ["Use Cases", "/use-cases"],
             ["Pricing", "/pricing"],
             ["Resources", "/resources"],
+            ["News", "/news/funding-announcement"],
             ["About", "/about"],
             ["Contact", "/contact"],
           ].map(([label, to]) => (
@@ -246,7 +278,7 @@ function Header() {
               </button>
             </div>
             <div className="mt-6 grid gap-2">
-              {[...products.map((p) => [p.name, p.path]), ["Use Cases", "/use-cases"], ["Integrations", "/integrations"], ["Pricing", "/pricing"], ["About", "/about"], ["Contact", "/contact"], ["Sign In", "/signin"]].map(([label, to]) => (
+              {[...products.map((p) => [p.name, p.path]), ["Use Cases", "/use-cases"], ["Integrations", "/integrations"], ["Pricing", "/pricing"], ["News", "/news/funding-announcement"], ["About", "/about"], ["Contact", "/contact"], ["Sign In", "/signin"]].map(([label, to]) => (
                 <Link key={label} to={to} onClick={() => setMobile(false)} className="rounded-xl px-3 py-3 font-semibold text-ink hover:bg-canvas-soft">
                   {label}
                 </Link>
@@ -754,6 +786,49 @@ function ProductSuite() {
   );
 }
 
+function FundingAnnouncement() {
+  return (
+    <section id="funding-announcement" className="funding-section" aria-labelledby="funding-announcement-title">
+      <div className="container">
+        <motion.article
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55, ease }}
+          className="funding-panel"
+        >
+          <div className="funding-panel-copy">
+            <div className="funding-meta">
+              <span className="eyebrow eyebrow-dark">Funding announcement</span>
+              <time dateTime="2026-06-30"><CalendarDays className="h-4 w-4" />Jun 30, 2026</time>
+            </div>
+            <h2 id="funding-announcement-title">PartVance secures $580K in funding from Dlabs.</h2>
+            <p>
+              PartVance is part of Dlabs’ global portfolio of companies building industrial supply-chain intelligence for complex operating environments.
+            </p>
+            <div className="funding-actions">
+              <ExternalLink href={companyLinks.dlabs} className="funding-primary-link">
+                View Dlabs portfolio <ArrowUpRight className="h-4 w-4" />
+              </ExternalLink>
+              <Link to="/news/funding-announcement" className="funding-secondary-link">
+                Read announcement <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+          <div className="funding-proof" aria-label="Funding summary">
+            <span>Backed by</span>
+            <strong>Dlabs</strong>
+            <div>
+              <p>$580K</p>
+              <span>Funding announced<br />Jun 30, 2026</span>
+            </div>
+          </div>
+        </motion.article>
+      </div>
+    </section>
+  );
+}
+
 function StatsSection() {
   const stats = [
     [30, "%", "Potential inventory reduction"],
@@ -1186,6 +1261,7 @@ function CtaFooter() {
                 "Company",
                 [
                   ["About", "/about"],
+                  ["News", "/news/funding-announcement"],
                   ["Contact", "/contact"],
                   ["Request demo", "/demo"],
                 ],
@@ -1214,7 +1290,12 @@ function CtaFooter() {
         </div>
         <div className="mt-10 flex flex-col justify-between gap-4 text-xs text-white/36 md:flex-row">
           <p>© 2026 PartVance. All rights reserved.</p>
-          <p>Warsaw, Poland · EU industrial software · hello@partvance.com</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-2 md:justify-end">
+            <span>Backed by Dlabs · $580K funding</span>
+            <ExternalLink href={companyLinks.dlabs} className="footer-external-link">Dlabs portfolio</ExternalLink>
+            <ExternalLink href={companyLinks.linkedin} className="footer-external-link">LinkedIn</ExternalLink>
+            <ExternalLink href={companyLinks.crunchbase} className="footer-external-link">Crunchbase</ExternalLink>
+          </div>
         </div>
       </footer>
     </section>
@@ -1228,6 +1309,7 @@ function Home() {
       <TrustedByMarquee />
       <DarkProblemSection />
       <ProductSuite />
+      <FundingAnnouncement />
       <StatsSection />
       <WorkflowSection />
       <UseCasesBento />
@@ -1360,7 +1442,15 @@ function ResourcesPage() {
     <>
       <PageHero eyebrow="Resources" title="Practical guides for spare parts planning, risk, and supplier intelligence." copy="Learn how industrial teams reduce overstock, avoid stockouts, and improve supplier resilience." />
       <section className="section bg-white">
-        <div className="container grid gap-5 md:grid-cols-2">
+        <div className="container">
+          <Link to="/news/funding-announcement" className="resource-announcement-card">
+            <div>
+              <span>Company news · Jun 30, 2026</span>
+              <h2>PartVance secures $580K in funding from Dlabs.</h2>
+            </div>
+            <ArrowRight className="h-6 w-6" />
+          </Link>
+          <div className="mt-5 grid gap-5 md:grid-cols-2">
           {groups.map((title) => (
             <article key={title} className="rounded-2xl border border-hairline p-7 hover:bg-canvas-soft">
               <FileSearch className="h-8 w-8 text-primary" />
@@ -1368,6 +1458,7 @@ function ResourcesPage() {
               <p className="mt-3 text-ink-secondary">A practical playbook for maintenance, procurement, and operations leaders.</p>
             </article>
           ))}
+          </div>
         </div>
       </section>
       <CtaFooter />
@@ -1380,7 +1471,20 @@ function AboutPage() {
     <>
       <PageHero eyebrow="About" title="Building the intelligence layer for industrial spare parts." copy="We help factories, fleets, warehouses, and maintenance teams make better decisions about the parts that keep operations running." />
       <section className="section bg-white">
-        <div className="container grid gap-8 lg:grid-cols-3">
+        <div className="container">
+          <div className="credibility-record">
+            <div>
+              <p className="eyebrow">Company record</p>
+              <h2>Backed by Dlabs</h2>
+              <p>$580K funding · Announced Jun 30, 2026</p>
+            </div>
+            <div className="credibility-links">
+              <ExternalLink href={companyLinks.dlabs}>Dlabs portfolio <ArrowUpRight className="h-4 w-4" /></ExternalLink>
+              <ExternalLink href={companyLinks.linkedin}>LinkedIn <ArrowUpRight className="h-4 w-4" /></ExternalLink>
+              <ExternalLink href={companyLinks.crunchbase}>Crunchbase <ArrowUpRight className="h-4 w-4" /></ExternalLink>
+            </div>
+          </div>
+          <div className="mt-8 grid gap-8 lg:grid-cols-3">
           {["Our mission", "Why now", "EU focus"].map((title, index) => (
             <article key={title} className="rounded-2xl border border-hairline p-7">
               <h3 className="text-2xl font-semibold text-ink">{title}</h3>
@@ -1393,8 +1497,52 @@ function AboutPage() {
               </p>
             </article>
           ))}
+          </div>
         </div>
       </section>
+      <CtaFooter />
+    </>
+  );
+}
+
+function FundingAnnouncementPage() {
+  return (
+    <>
+      <article className="news-article">
+        <header className="news-article-hero">
+          <div className="container">
+            <Link to="/resources" className="news-back-link">News <ArrowRight className="h-4 w-4" /></Link>
+            <div className="news-article-meta">
+              <span className="eyebrow eyebrow-dark">Funding announcement</span>
+              <time dateTime="2026-06-30">Jun 30, 2026</time>
+            </div>
+            <h1>PartVance secures $580K in funding from Dlabs.</h1>
+            <p>PartVance has secured $580K in funding from Dlabs.</p>
+          </div>
+        </header>
+        <div className="container news-article-body">
+          <div className="news-article-copy">
+            <p className="news-lede">
+              PartVance is part of Dlabs’ global portfolio of companies building industrial supply-chain intelligence for complex operating environments.
+            </p>
+            <div className="news-fact-row" aria-label="Announcement facts">
+              <div><span>Company</span><strong>PartVance</strong></div>
+              <div><span>Investor</span><strong>Dlabs</strong></div>
+              <div><span>Funding</span><strong>$580K</strong></div>
+              <div><span>Announced</span><strong>Jun 30, 2026</strong></div>
+            </div>
+            <div className="news-links-panel">
+              <h2>Company links</h2>
+              <p>Follow PartVance and view the approved public company records.</p>
+              <div>
+                <ExternalLink href={companyLinks.dlabs}>View Dlabs portfolio <ArrowUpRight className="h-4 w-4" /></ExternalLink>
+                <ExternalLink href={companyLinks.linkedin}>PartVance on LinkedIn <ArrowUpRight className="h-4 w-4" /></ExternalLink>
+                <ExternalLink href={companyLinks.crunchbase}>PartVance on Crunchbase <ArrowUpRight className="h-4 w-4" /></ExternalLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
       <CtaFooter />
     </>
   );
@@ -1543,6 +1691,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <PageMetadata />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -1553,6 +1702,7 @@ function App() {
         <Route path="/use-cases" element={<UseCasesPage />} />
         <Route path="/integrations" element={<IntegrationsPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/news/funding-announcement" element={<FundingAnnouncementPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
