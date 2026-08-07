@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Link, NavLink, Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
-import { animate, motion, useInView } from "motion/react";
+import { animate, motion, useInView, useReducedMotion } from "motion/react";
 import {
   AlertTriangle,
   ArrowRight,
@@ -650,6 +650,90 @@ function SignInTrustPanel() {
         </div>
       </div>
     </aside>
+  );
+}
+
+function CinematicEntry() {
+  const sectionRef = useRef(null);
+  const [videoTime, setVideoTime] = useState(0);
+  const [videoReady, setVideoReady] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const activeBeat = videoTime < 0.65 ? -1 : videoTime < 2.75 ? 0 : videoTime < 5.15 ? 1 : 2;
+  const beats = [
+    <>Too much stock.<br /><em>Not enough certainty.</em></>,
+    <>The line stops for the one part<br className="cinematic-desktop-break" /> that is not there.</>,
+    <>PartVance knows <em>which one.</em></>,
+  ];
+
+  const skipIntro = () => {
+    window.scrollTo({
+      top: sectionRef.current?.offsetHeight || window.innerHeight,
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  };
+
+  return (
+    <section ref={sectionRef} className="cinematic-entry" aria-label="PartVance cinematic introduction">
+      <video
+        className={`cinematic-entry-video ${videoReady ? "is-ready" : ""}`}
+        src="/media/partvance-entry.mp4"
+        poster="/media/partvance-cinematic-master.png"
+        autoPlay={!reducedMotion}
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        onCanPlay={() => setVideoReady(true)}
+        onTimeUpdate={(event) => setVideoTime(event.currentTarget.currentTime)}
+      />
+      <div className="cinematic-entry-shade" aria-hidden="true" />
+
+      <div className="cinematic-entry-content">
+        <div className="cinematic-entry-topbar">
+          <div className="cinematic-entry-brand">
+            <img src="/brand/partvance-mark.svg" alt="" aria-hidden="true" />
+            <span>PartVance</span>
+          </div>
+          <button type="button" onClick={skipIntro}>Skip intro</button>
+        </div>
+
+        <div className="cinematic-story">
+          <motion.p
+            className="cinematic-story-label"
+            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.25, ease }}
+          >
+            Industrial spare parts intelligence
+          </motion.p>
+          <div className="cinematic-story-lines" aria-live="polite">
+            {beats.map((beat, index) => (
+              <motion.h1
+                key={index}
+                aria-hidden={activeBeat !== index}
+                animate={{
+                  opacity: activeBeat === index ? 1 : 0,
+                  y: activeBeat === index ? 0 : index < activeBeat ? -34 : 34,
+                  filter: activeBeat === index ? "blur(0px)" : "blur(8px)",
+                }}
+                transition={{ duration: reducedMotion ? 0 : 0.72, ease }}
+              >
+                {beat}
+              </motion.h1>
+            ))}
+          </div>
+        </div>
+
+        <button type="button" className="cinematic-scroll-cue" onClick={skipIntro}>
+          <span>Scroll to enter</span>
+          <span className="cinematic-progress" aria-hidden="true">
+            <i style={{ transform: `scaleX(${Math.max(0.04, Math.min(videoTime / 8, 1))})` }} />
+          </span>
+          <ArrowRight aria-hidden="true" />
+        </button>
+      </div>
+    </section>
   );
 }
 
@@ -1305,6 +1389,7 @@ function CtaFooter() {
 function Home() {
   return (
     <>
+      <CinematicEntry />
       <Hero />
       <TrustedByMarquee />
       <DarkProblemSection />
