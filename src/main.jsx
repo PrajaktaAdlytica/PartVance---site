@@ -1700,7 +1700,7 @@ function ContactPage() {
                 <li key={item} className="flex gap-3"><CheckCircle2 className="h-5 w-5 text-primary" />{item}</li>
               ))}
             </ul>
-            <p className="mt-8 text-sm text-ink-muted">Warsaw, Poland · hello@partvance.com</p>
+            <p className="mt-8 text-sm text-ink-muted">2086 Charles Boulevard, Sliema, NO SLM 1000, Malta · Phone: 1444 5745 · hello@partvance.com</p>
           </div>
           <LeadForm mode="contact" />
         </div>
