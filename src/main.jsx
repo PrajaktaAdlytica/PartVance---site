@@ -1322,6 +1322,11 @@ function CtaFooter() {
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/48">
               AI spare parts intelligence for factories, fleets, warehouses, and maintenance teams.
             </p>
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/48">
+              2086 Charles Boulevard, Sliema, NO SLM 1000, Malta
+              <br />
+              Phone: 1444 5745
+            </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-4">
             {[
