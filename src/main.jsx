@@ -1323,9 +1323,13 @@ function CtaFooter() {
               AI spare parts intelligence for factories, fleets, warehouses, and maintenance teams.
             </p>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/48">
-              2086 Charles Boulevard, Sliema, NO SLM 1000, Malta
+              3896 Autumn Path
               <br />
-              Phone: 1444 5745
+              Wilmington, DE 19898
+              <br />
+              United States
+              <br />
+              Phone: (302) 974-2928
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-4">
@@ -1705,7 +1709,9 @@ function ContactPage() {
                 <li key={item} className="flex gap-3"><CheckCircle2 className="h-5 w-5 text-primary" />{item}</li>
               ))}
             </ul>
-            <p className="mt-8 text-sm text-ink-muted">2086 Charles Boulevard, Sliema, NO SLM 1000, Malta · Phone: 1444 5745 · hello@partvance.com</p>
+            <p className="mt-8 text-sm text-ink-muted">
+              3896 Autumn Path, Wilmington, DE 19898, United States · Phone: (302) 974-2928 · Lat: 39.7372, Lng: -75.5423 · hello@partvance.com
+            </p>
           </div>
           <LeadForm mode="contact" />
         </div>
